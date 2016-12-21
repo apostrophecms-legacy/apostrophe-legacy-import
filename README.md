@@ -18,7 +18,7 @@ node app apostrophe-attachments:rescale --parallel=4
 
 You must configure the `apostrophe-legacy-import` module in `app.js` (no options are currently required).
 
-The use of `--map-types` is required. You must map at least one 0.5 page or snippet type to a 2.x doc type. **No doc types not mapped will be imported.**
+The use of `--map-types` is required. You must map at least one 0.5 page or snippet type to a 2.x doc type. **No doc types not mapped will be imported. Separate the pairs with commas.**
 
 There is also a `--map-widgets` option which works the same way. There are some default mappings for common widgets.
 
