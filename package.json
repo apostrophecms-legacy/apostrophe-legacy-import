@@ -24,9 +24,10 @@
   "dependencies": {
     "async": "^2.1.4",
     "cuid": "^1.3.8",
+    "emulate-mongo-2-driver": "^1.2.3",
     "fs-extra": "^1.0.0",
     "glob": "^7.1.1",
     "lodash": "^4.17.2",
-    "mongodb": "^2.2.16"
+    "moment": "^2.28.0"
   }
 }
