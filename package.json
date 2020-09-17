@@ -1,6 +1,6 @@
 {
   "name": "apostrophe-legacy-import",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Import Apostrophe 0.5.x sites to 2.x",
   "main": "index.js",
   "scripts": {
