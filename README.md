@@ -21,7 +21,7 @@ node app apostrophe-attachments:rescale --parallel=4
 
 You must configure the `apostrophe-legacy-import` module in `app.js` (no options are currently required).
 
-If you already have a 2.x site with content, importing a piece type like `apostrophe-blog` like this should not unduly impact the rest of your sitem, however there is no guarantee of this. Always back up.
+If you already have a 2.x site with content, importing a piece type like `apostrophe-blog` like this should not unduly impact the rest of your site, however there is no guarantee of this. Always back up.
 
 The use of `--map-types` is required. You must map at least one 0.5 page or snippet type to a 2.x doc type. **No doc types not mapped will be imported. Separate the pairs with commas.**
 

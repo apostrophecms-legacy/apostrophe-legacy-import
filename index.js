@@ -46,7 +46,7 @@ module.exports = {
     };
 
     self.connectLegacyDb = function(callback) {
-      console.log('Conecting to legacy db');
+      console.log('Connecting to legacy db');
       var legacyDbUriOrName = self.apos.argv['legacy-db'];
       var legacyFiles = self.apos.argv['legacy-root'];
       if (legacyDbUriOrName.match(/mongodb:/)) {
@@ -338,6 +338,7 @@ module.exports = {
 
     self.mapStandardWidgets = function() {
       self.mapWidget('richText', 'apostrophe-rich-text');
+      self.mapWidget('html', 'apostrophe-html');
       self.mapWidget('slideshow', function(item) {
         var relationships = {};
         _.each(item.extras || {}, function(val, key) {
