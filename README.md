@@ -4,7 +4,7 @@ Migrates content from [Apostrophe](http://apostrophecms.org) 0.5 projects to Apo
 
 ## Stability
 
-Beta. Used successfully to import blogs (although not blog-2 style blogs). Should work for pages too but this has not yet been tested.
+Beta. Used successfully to import pages, blogs and more, although `apostrophe-blog-2` style blogs have important caveats (see below).
 
 ## Usage
 
