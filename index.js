@@ -91,7 +91,7 @@ module.exports = {
           var legacyFile = self.apos.argv['legacy-root'] + '/public/uploads/files/' + require('path').basename(file);
           var newFile = self.newFilesDir + newFile;
           if (existingNew.find(name => name === newFile)) {
-            return setImmediate(callback);
+            return process.nextTick(callback);
           }
           return self.copyFile(legacyFile, newFile, callback);
         }, callback);
@@ -250,8 +250,8 @@ module.exports = {
               // Don't import them yet, we'll recursively import all in the doc later
               items: doc[area05Name].items
             };
-            doc[name].items.push(blockWidget);
           }
+          doc[name].items.push(blockWidget);
           for (const key of relevant) {
             // Don't double-import
             delete doc[key];
@@ -359,6 +359,8 @@ module.exports = {
       });
       self.mapWidget('video', function(item) {
         return {
+          originalId: item.id,
+          _id: `a205widget${item.id}`,
           type: 'apostrophe-video',
           video: {
             url: item.video,
