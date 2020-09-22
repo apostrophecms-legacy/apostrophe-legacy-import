@@ -14,6 +14,7 @@ node app apostrophe-legacy-import:import \
   --map-widgets=oldName:new-name \
   --map-lockups=left:block-left \
   --map-blocks=oneColumn:one-column,twoColumn:two-column \
+  --global \
   --legacy-db=punkave05 \
   --legacy-root=/Users/boutell/node-sites/punkave05 &&
 node app apostrophe-attachments:rescale --parallel=4
@@ -32,6 +33,8 @@ If you wish to map `slideshow` to something other than `apostrophe-images` but k
 `--map-lockups` maps 0.5 lockups to nested widgets in your 2.x site, which must exist and be designed to contain two child areas, a rich text singleton named `richText` and an area named `media` which should have `limit: 1` and allow the same widgets that were configured for the lockup.
 
 `--map-blocks` maps 0.5 blocks to nested widgets in your 2.x site, which must exist and be designed to contain areas accepting the same widgets that the 0.5 blocks did. If the old block template contained areas named with `prefix + 'one'` and `prefix + 'two'`, then the new nested widget should contain sub-areas named `'one'` and `'two'`.
+
+`--global` imports the global preferences document.
 
 `--blog-2` can be passed to drop the path portion of the slug from all docs of type `blogPost`. This is necessary when importing content from `apostrophe-blog-2`.
 
