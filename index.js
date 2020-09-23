@@ -188,10 +188,24 @@ module.exports = {
         // just date in publishedAt and not a Date object ):
         newDoc.publishedAt = moment(doc.publishedAt).format('YYYY-MM-DD');
       }
-
+      // bc
       if (self.apos.argv['blog-2']) {
-        if (doc.type === 'blogPost') {
-          doc.slug = doc.slug.replace(/^(.*\/)/, '');
+        self.apos.argv['convert-blog-2-slugs'] = 'blogPost';
+      }
+      let blog2Slugs = self.apos.argv['convert-blog-2-slugs'];
+      if (blog2Slugs) {
+        blog2Slugs = blog2Slugs.split(',');
+        if (!Array.isArray(blog2Slugs)) {
+          blog2Slugs = [ blog2Slugs ];
+        }
+        if (blog2Slugs.includes(doc.type)) {
+          const matches = doc.slug.match(/\d\d\d\d\/\d\d\/\d\d\/.*$/);
+          if (matches) {
+            // preserve the date in the slug to avoid slug conflicts on
+            // migration and make it possible to write routes that redirect
+            // to the new pattern
+            newDoc.slug = matches[0].replace(/\//g, '-');
+          }
         }
       }
 
