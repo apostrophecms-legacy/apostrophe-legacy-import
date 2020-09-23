@@ -7,6 +7,7 @@
 * Import nested widgets
 * Option to rename slideshow widgets on import while still using their typical mapping function to convert them
 * Performance improvements for faster iteration on the import process
+* Removes the package lock file.
 
 ## 0.1.0 — 0.1.1
 
