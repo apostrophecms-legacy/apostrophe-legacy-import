@@ -10,10 +10,12 @@ Beta. Used successfully to import pages, blogs and more, although `apostrophe-bl
 
 ```
 node app apostrophe-legacy-import:import \
-  --map-types=blogPost:apostrophe-blog \
+  --map-types=blogPost:apostrophe-blog,home:home,default:default,article:article \
   --map-widgets=oldName:new-name \
   --map-lockups=left:block-left \
   --map-blocks=oneColumn:one-column,twoColumn:two-column \
+  --convert-blog-2-slugs=apostrophe-blog,article \
+  --global \
   --legacy-db=punkave05 \
   --legacy-root=/Users/boutell/node-sites/punkave05 &&
 node app apostrophe-attachments:rescale --parallel=4
@@ -21,7 +23,7 @@ node app apostrophe-attachments:rescale --parallel=4
 
 You must configure the `apostrophe-legacy-import` module in `app.js` (no options are currently required).
 
-If you already have a 2.x site with content, importing a piece type like `apostrophe-blog` like this should not unduly impact the rest of your site, however there is no guarantee of this. Always back up.
+If you already have a 2.x site with content, importing only a piece type like `apostrophe-blog` like this should not unduly impact the rest of your site, apart from importing all of the media of the old site. However there is no guarantee of this. Always back up.
 
 The use of `--map-types` is required. You must map at least one 0.5 page or snippet type to a 2.x doc type. **No doc types not mapped will be imported. Separate the pairs with commas.**
 
@@ -33,9 +35,11 @@ If you wish to map `slideshow` to something other than `apostrophe-images` but k
 
 `--map-blocks` maps 0.5 blocks to nested widgets in your 2.x site, which must exist and be designed to contain areas accepting the same widgets that the 0.5 blocks did. If the old block template contained areas named with `prefix + 'one'` and `prefix + 'two'`, then the new nested widget should contain sub-areas named `'one'` and `'two'`.
 
-`--blog-2` can be passed to drop the path portion of the slug from all docs of type `blogPost`. This is necessary when importing content from `apostrophe-blog-2`.
+`--global` imports the global preferences document.
 
-> **Warning:** `apostrophe-blog-2` has no direct equivalent in Apostrophe 2. Currently it only makes sense to use this option when there was just one parent blog page on the 0.5 site. If there was more than one, you will be left with no way to distinguish the blogs the posts belong to. Contributions welcome.
+`--convert-blog-2-slugs` accepts a comma-separated list of 2.x doc types that came from `apostrophe-blog-2` subclasses. Note these must be the *original* type names before mapping. The slugs of these will be converted to have no slashes, but for bc and to prevent conflicts the publication date part is kept, with hyphens. This is necessary when importing content from `apostrophe-blog-2`.
+
+> **Warning:** `apostrophe-blog-2` has no direct equivalent in Apostrophe 2. Currently it only makes sense to use this option when there was just one parent blog page on the 0.5 site per subclass of `apostrophe-blog-2`. If there was more than one, you will be left with no way to distinguish the blogs the posts belong to. Contributions welcome.
 
 ## Importing the home page and other parked pages
 

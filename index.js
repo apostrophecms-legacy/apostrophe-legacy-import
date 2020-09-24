@@ -144,6 +144,15 @@ module.exports = {
     };
 
     self.importDoc = function(doc, callback) {
+      if (self.apos.argv.global) {
+        if (doc.slug === 'global') {
+          // in 0.5 global had a funky lack of standard fields
+          doc.type = 'apostrophe-global';
+          doc.published = true;
+          doc.trash = false;
+          self.typeMap['apostrophe-global'] = 'apostrophe-global';
+        }
+      }
       if (!self.typeMap[doc.type]) {
         return setImmediate(callback);
       }
@@ -179,10 +188,24 @@ module.exports = {
         // just date in publishedAt and not a Date object ):
         newDoc.publishedAt = moment(doc.publishedAt).format('YYYY-MM-DD');
       }
-
+      // bc
       if (self.apos.argv['blog-2']) {
-        if (doc.type === 'blogPost') {
-          doc.slug = doc.slug.replace(/^(.*\/)/, '');
+        self.apos.argv['convert-blog-2-slugs'] = 'blogPost';
+      }
+      let blog2Slugs = self.apos.argv['convert-blog-2-slugs'];
+      if (blog2Slugs) {
+        blog2Slugs = blog2Slugs.split(',');
+        if (!Array.isArray(blog2Slugs)) {
+          blog2Slugs = [ blog2Slugs ];
+        }
+        if (blog2Slugs.includes(doc.type)) {
+          const matches = doc.slug.match(/\d\d\d\d\/\d\d\/\d\d\/.*$/);
+          if (matches) {
+            // preserve the date in the slug to avoid slug conflicts on
+            // migration and make it possible to write routes that redirect
+            // to the new pattern
+            newDoc.slug = matches[0].replace(/\//g, '-');
+          }
         }
       }
 
@@ -210,12 +233,10 @@ module.exports = {
           if (!match) {
             return callback(null);
           }
-          if (match.parked) {
-            if (self.apos.argv['replace-parked']) {
-              return self.apos.docs.db.removeOne({
-                slug: newDoc.slug
-              }, callback);
-            }
+          if ((match.parked && self.apos.argv['replace-parked']) || (match.slug === 'global')) {
+            return self.apos.docs.db.removeOne({
+              slug: newDoc.slug
+            }, callback);
           }
           newDoc.slug += Math.floor(Math.random() * 10);
           return uniqueSlug(callback);
@@ -281,7 +302,15 @@ module.exports = {
           continue;
         }
         if (item.lockup && self.lockupMap[item.lockup]) {
-          const lockup = self.importLockup(item.lockup, item, items[i + 1]);
+          let richText, media;
+          if (item.type === 'richText') {
+            richText = item;
+            media = items[i + 1];
+          } else {
+            richText = items[i + 1];
+            media = item;
+          }
+          const lockup = self.importLockup(item.lockup, richText, media);
           if (lockup) {
             newItems.push(lockup);
             i++;
@@ -343,6 +372,8 @@ module.exports = {
         var relationships = {};
         _.each(item.extras || {}, function(val, key) {
           var newKey = 'a205file' + key;
+          Object.assign(val, val.crop || {});
+          delete val.crop;
           relationships[newKey] = val;
         });
         var widget = {
