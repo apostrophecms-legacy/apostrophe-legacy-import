@@ -4,6 +4,7 @@ npm-debug.log
 *.DS_Store
 *.npmignore
 node_modules
+package-lock.json
 test/node_modules
 
 # We do not commit CSS, only LESS, with the exception of a few vendor CSS files we don't have LESS for
