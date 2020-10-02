@@ -113,6 +113,8 @@ module.exports = {
           slug: 'a205file' + file._id + '-' + file.name,
           type: (file.group === 'office') ? 'apostrophe-file' : 'apostrophe-image',
           title: file.title,
+          credit: file.credit,
+          description: file.description,
           published: true,
           attachment: attachment
         });
@@ -384,7 +386,11 @@ module.exports = {
           pieceIds: _.map(item.ids || [], function(id) {
             return 'a205file' + id
           }),
-          relationships: relationships
+          relationships: relationships,
+          // These won't actually do anything interesting unless you decide to
+          // custom-implement them in your 2.x project, but bring along the 0.5 data
+          // for completeness
+          ..._.pick(item, 'position', 'size', 'showTitles', 'showDescriptions', 'showCredits')
         };
         return widget;
       });

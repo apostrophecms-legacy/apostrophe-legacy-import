@@ -11,6 +11,7 @@
 * Performance improvements for faster iteration on the import process
 * Removes the package lock file.
 * Import crops correctly
+* Import all attributes of slideshows and images from 0.5, even those that might not have a representation in the equivalent 2.x widget or piece by default, allowing for project-specific workarounds for these
 
 ## 0.1.0 — 0.1.1
 
