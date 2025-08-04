@@ -1,3 +1,7 @@
+# ⛔️ **DEPRECATED** — do not use for new projects
+
+See [our current docs](https://docs.apostrophecms.org/)
+
 ## Purpose
 
 Migrates content from [Apostrophe](http://apostrophecms.org) 0.5 projects to Apostrophe 2.x.
